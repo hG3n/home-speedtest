@@ -4,7 +4,7 @@
 
 {
   "server": {
-    "port": 4201,
+    "port": 42001,
     "hostname": ""
   },
   "database": {
