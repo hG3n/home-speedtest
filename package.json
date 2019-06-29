@@ -1,0 +1,38 @@
+{
+  "name": "swe-middleware",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "config": "^1.30.0",
+    "express": "^4.16.3",
+    "express-bearer-token": "^2.1.1",
+    "express-handlebars": "^3.0.0",
+    "express-validator": "^5.2.0",
+    "jsonwebtoken": "^8.2.2",
+    "moment": "^2.22.2",
+    "mongo-cursor-pagination": "^7.1.0",
+    "mongoose": "^5.4.22",
+    "morgan": "^1.9.1",
+    "nodemailer": "^4.6.8",
+    "nodemailer-express-handlebars": "^3.0.0",
+    "npm": "^6.9.0",
+    "nodemailer-smime": "^1.1.0",
+    "openssl-wrapper": "^0.3.4",
+    "querystring": "^0.2.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
+    "swagger-ui-express": "^3.0.10",
+    "underscore": "^1.9.1",
+    "url": "^0.11.0",
+    "uuid": "^3.2.1",
+    "valid-url": "^1.0.9"
+  }
+}

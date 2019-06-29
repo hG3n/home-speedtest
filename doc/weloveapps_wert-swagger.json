@@ -1,0 +1,1482 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "SWE",
+    "version" : "master"
+  },
+  "host" : "swe-test.wla-backend.de",
+  "basePath" : "",
+  "schemes" : [
+    "https"
+  ],
+  "paths" : {
+    "/events/{id}" : {
+      "get" : {
+        "summary" : "details",
+        "description" : "Get details for a single event, identified by `id`.",
+        "operationId" : "event-details",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Event Id",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "categories" : {
+                      "type" : "object",
+                      "properties" : {
+                        "main" : {
+                          "type" : "string",
+                          "example" : "Familie"
+                        },
+                        "sub" : {
+                          "type" : "string",
+                          "example" : "Senioren"
+                        }
+                      }
+                    },
+                    "location" : {
+                      "type" : "object",
+                      "properties" : {
+                        "coordinates" : {
+                          "type" : "object",
+                          "properties" : {
+                            "latitude" : {
+                              "type" : "number",
+                              "example" : 50.978786
+                            },
+                            "longitude" : {
+                              "type" : "number",
+                              "example" : 11.024814
+                            }
+                          }
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "example" : "Frauenzentrum"
+                        },
+                        "sublocation" : {
+                          "type" : "string"
+                        },
+                        "street" : {
+                          "type" : "string",
+                          "example" : "Pergamentergasse 36"
+                        },
+                        "city" : {
+                          "type" : "string",
+                          "example" : "Erfurt"
+                        },
+                        "zip_code" : {
+                          "type" : "string",
+                          "example" : "99084"
+                        }
+                      }
+                    },
+                    "_id" : {
+                      "type" : "string",
+                      "example" : "Z0R0122377663-116"
+                    },
+                    "updated_at" : {
+                      "type" : "string",
+                      "example" : "2018-06-11T11:01:28.074Z"
+                    },
+                    "highlight" : {
+                      "type" : "boolean"
+                    },
+                    "title" : {
+                      "type" : "string",
+                      "example" : "Seniorinnensport"
+                    },
+                    "date_start" : {
+                      "type" : "string",
+                      "example" : "2018-06-11T12:00:00.000Z"
+                    },
+                    "date_end" : {
+                      "type" : "string",
+                      "example" : "2018-06-11T12:00:00.000Z"
+                    },
+                    "date_series_start" : {
+                      "type" : "string",
+                      "example" : "2018-03-15T23:00:00.000Z"
+                    },
+                    "date_series_end" : {
+                      "type" : "string",
+                      "example" : "2018-07-30T22:00:00.000Z"
+                    },
+                    "excerpt" : {
+                      "type" : "string",
+                      "example" : "je 8 Einheiten"
+                    },
+                    "description" : {
+                      "type" : "string",
+                      "example" : "Kosten: 56,00 Euro"
+                    },
+                    "admission_price" : {
+                      "type" : "integer"
+                    },
+                    "booking_url" : {
+                      "type" : "string"
+                    },
+                    "source" : {
+                      "type" : "string",
+                      "example" : "MGT"
+                    },
+                    "vorteil" : {
+                      "type" : "string"
+                    },
+                    "program_url" : {
+                      "type" : "string"
+                    },
+                    "image" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "event-details"
+      }
+    },
+    "/events" : {
+      "get" : {
+        "summary" : "list",
+        "description" : "Retrieves a list of events. Sorted by ascending start date of the events. If the `limit` parameter is not set, 100 events are returned by default.",
+        "operationId" : "event-list",
+        "parameters" : [
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          },
+          {
+            "name" : "category",
+            "in" : "query",
+            "description" : "When specified, the list only contains events that match the given category. Also see [categories](speca://categories).",
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/Event List Schema"
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "event-list"
+      }
+    },
+    "/events/month/{month}/{year}" : {
+      "get" : {
+        "summary" : "list for month",
+        "description" : "Retrieves a list of events for the given month/year combination. Sorted by ascending start date of the events. If the `limit` parameter is not set, 100 events are returned by default.",
+        "operationId" : "event-list-for-month",
+        "parameters" : [
+          {
+            "name" : "month",
+            "in" : "path",
+            "required" : true,
+            "type" : "number"
+          },
+          {
+            "name" : "year",
+            "in" : "path",
+            "required" : true,
+            "type" : "number"
+          },
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          },
+          {
+            "name" : "category",
+            "in" : "query",
+            "description" : "When specified, the list only contains events that match the given category. Also see [categories](speca://categories).",
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/Event List Schema"
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "event-list-for-month"
+      }
+    },
+    "/events/daterange/{start_date}/{end_date}" : {
+      "get" : {
+        "summary" : "list for date range",
+        "description" : "Retrieves a list of benefits between the given dates. Sorted by ascending start date of the benefits. If the `limit` parameter is not set, 100 events are returned by default.",
+        "operationId" : "list-for-date-range-benefits",
+        "parameters" : [
+          {
+            "name" : "start_date",
+            "in" : "path",
+            "description" : "Beginning of the date range, formatted as `YYYY-MM-DD`, e.g. `2018-06-22`",
+            "required" : true,
+            "type" : "number"
+          },
+          {
+            "name" : "end_date",
+            "in" : "path",
+            "description" : "End of the date range, formatted as `YYYY-MM-DD`, e.g. `2018-06-23`",
+            "required" : true,
+            "type" : "number"
+          },
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/benefit list schema"
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "list-for-date-range-benefits"
+      }
+    },
+    "/events/search" : {
+      "post" : {
+        "summary" : "search",
+        "description" : "Retrieves a list of events that match the search query. Searches the fields `description`, `title` and `location.city`. Sorted by descending `score` (represents the relevance to the search query) property of the events. If the `limit` parameter is not set, 100 events are returned by default.",
+        "operationId" : "search",
+        "parameters" : [
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          },
+          {
+            "name" : "body",
+            "in" : "body",
+            "required" : true,
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "query" : {
+                  "type" : "string",
+                  "description" : "The search query",
+                  "example" : "Sommer"
+                }
+              }
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "categories" : {
+                        "type" : "object",
+                        "properties" : {
+                          "main" : {
+                            "type" : "string",
+                            "example" : "Konzerte"
+                          },
+                          "sub" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "location" : {
+                        "type" : "object",
+                        "properties" : {
+                          "coordinates" : {
+                            "type" : "object",
+                            "properties" : {
+                              "latitude" : {
+                                "type" : "number",
+                                "example" : 50.97188
+                              },
+                              "longitude" : {
+                                "type" : "number",
+                                "example" : 11.02414
+                              }
+                            }
+                          },
+                          "name" : {
+                            "type" : "string",
+                            "example" : "Stadtgarten"
+                          },
+                          "sublocation" : {
+                            "type" : "string"
+                          },
+                          "street" : {
+                            "type" : "string",
+                            "example" : "Dalbergsweg 2 a"
+                          },
+                          "city" : {
+                            "type" : "string",
+                            "example" : "Erfurt"
+                          },
+                          "zip_code" : {
+                            "type" : "string",
+                            "example" : "99084"
+                          }
+                        }
+                      },
+                      "_id" : {
+                        "type" : "string",
+                        "example" : "Z0R0149936502-1"
+                      },
+                      "updated_at" : {
+                        "type" : "string",
+                        "example" : "2018-06-21T11:41:24.763Z"
+                      },
+                      "highlight" : {
+                        "type" : "boolean"
+                      },
+                      "title" : {
+                        "type" : "string",
+                        "example" : "Muschelmugge mit Zaphod (Erfurt; Grunge, Blues 'n' Roll), Clocktown Danger (Erfurt; Danger-Rock)"
+                      },
+                      "date_start" : {
+                        "type" : "string",
+                        "example" : "2018-07-20T16:30:00.000Z"
+                      },
+                      "date_end" : {
+                        "type" : "string"
+                      },
+                      "admission_price" : {
+                        "type" : "integer"
+                      },
+                      "source" : {
+                        "type" : "string",
+                        "example" : "MGT"
+                      },
+                      "image" : {
+                        "type" : "string"
+                      },
+                      "score" : {
+                        "type" : "number",
+                        "description" : "This event's relevance to the search query.",
+                        "example" : 2.8546509197324417
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "search"
+      }
+    },
+    "/events/categories" : {
+      "get" : {
+        "summary" : "categories",
+        "description" : "Lists all available event categories that are currently present in the database. Use the value of the `short` parameter for subsequent category-filtered calls to the other event endpoints.",
+        "operationId" : "categories",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "name" : {
+                        "type" : "string",
+                        "example" : "Ausstellung"
+                      },
+                      "short" : {
+                        "type" : "string",
+                        "example" : "4175737374656c6c756e67"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "categories"
+      }
+    },
+    "/events/{id}/fave" : {
+      "post" : {
+        "summary" : "fave",
+        "description" : "Fave an event specified by `id`. Adds the event id to the list of faved events for this user. See [/auth/me](speca://me).",
+        "operationId" : "fave-event",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Id of the event that will be faved.",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "204" : {
+            "description" : "Event was successfully faved."
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "fave-event"
+      }
+    },
+    "/events/{id}/unfave" : {
+      "post" : {
+        "summary" : "unfave",
+        "description" : "Unfave an event specified by `id`. Removes the event id from the list of faved events for this user. See [/auth/me](speca://me).",
+        "operationId" : "unfave-event",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Id of the event that will be unfaved",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "204" : {
+            "description" : "Event was successfully unfaved."
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "unfave-event"
+      }
+    },
+    "/benefits/{id}" : {
+      "get" : {
+        "summary" : "details",
+        "description" : "Get details for a single benefit, identified by `id`.",
+        "operationId" : "details",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Event Id",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "contact" : {
+                      "type" : "object",
+                      "properties" : {
+                        "email" : {
+                          "type" : "string",
+                          "example" : "heimvorteil@stadtwerke-erfurt.de"
+                        }
+                      }
+                    },
+                    "_id" : {
+                      "type" : "string",
+                      "example" : "bfd5fc22-ab37-4b47-b242-2cebe15d59da"
+                    },
+                    "title" : {
+                      "type" : "string",
+                      "example" : "MEIN HEIMVORTEIL"
+                    },
+                    "subtitle" : {
+                      "type" : "string",
+                      "example" : "Lichterfest im egapark!"
+                    },
+                    "date_start" : {
+                      "type" : "string",
+                      "example" : "2018-06-14T22:00:00.000Z"
+                    },
+                    "date_end" : {
+                      "type" : "string",
+                      "example" : "2018-07-14T21:59:00.000Z"
+                    },
+                    "description" : {
+                      "type" : "string",
+                      "example" : "Am 10. und 11. August 2018 geht das Lichterfest in seine 52. Auflage. Der Saisonhöhepunkt im größten Garten Thüringens sorgt Jahr für Jahr für abertausende bunte Lichter, Musik auf mehreren Bühnen, Laser-, Licht- und Feuershows. Und was auf keinen Fall fehlen darf, ist ein spektakuläres Feuerwerk an beiden Abenden. Für das diesjährige Lichterfest verlosen wir an SWE Energiekunden 50 x 2 Freikarten. Als Teilnehmer am Gewinnspiel erklären Sie sich verbindlich, dass Sie die Teilnahmebedingungen gelesen und akzeptiert haben.\n\nWir wünschen Ihnen viel Spaß und einen schönen Sommer!\n\nIhr Team der SWE Energie GmbH"
+                    },
+                    "image" : {
+                      "type" : "string",
+                      "example" : "https://www.stadtwerke-erfurt.de/pb/site/swe/get/params_E2084650003/273126/Header%20HV%20Lichterfest%202018%20635x220.jpg"
+                    },
+                    "source" : {
+                      "type" : "string",
+                      "example" : "swe-energie"
+                    },
+                    "updated_at" : {
+                      "type" : "string",
+                      "example" : "2018-06-18T07:55:00.000Z"
+                    },
+                    "annotation_title" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "details"
+      }
+    },
+    "/benefits" : {
+      "get" : {
+        "summary" : "list",
+        "description" : "Retrieves a list of benefits. Sorted by ascending start date of the benefits. If the `limit` parameter is not set, 100 events are returned by default.",
+        "operationId" : "list",
+        "parameters" : [
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/benefit list schema"
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "list"
+      }
+    },
+    "/benefits/month/{month}/{year}" : {
+      "get" : {
+        "summary" : "list for month",
+        "description" : "Retrieves a list of benefits for the given month/year combination. Sorted by ascending start date of the benefits. If the `limit` parameter is not set, 100 events are returned by default.",
+        "operationId" : "list-for-month",
+        "parameters" : [
+          {
+            "name" : "month",
+            "in" : "path",
+            "required" : true,
+            "type" : "number"
+          },
+          {
+            "name" : "year",
+            "in" : "path",
+            "required" : true,
+            "type" : "number"
+          },
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/benefit list schema"
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "list-for-month"
+      }
+    },
+    "/benefits/source/{source}" : {
+      "get" : {
+        "summary" : "list for source",
+        "description" : "Retrieves a list of benefits for the given source. Sorted by ascending start date of the benefits. If the `limit` parameter is not set, 100 benefits are returned by default.\n\nValid source identifiers are:\n- swe-energie\n- thuewa\n- swe-netz\n- swe-stadtwirtschaft\n- swe-parken\n- evag\n- swe-baeder\n- ega\n- buga",
+        "operationId" : "list-for-source",
+        "parameters" : [
+          {
+            "$ref" : "#/parameters/skip"
+          },
+          {
+            "$ref" : "#/parameters/limit"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/benefit list schema"
+            }
+          },
+          "unprocessable-entity" : {
+            "$ref" : "#/responses/unprocessable-entity"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "list-for-source"
+      }
+    },
+    "/benefits/{id}/fave" : {
+      "post" : {
+        "summary" : "fave",
+        "description" : "Fave a benefit specified by `id`. Adds the benefit id to the list of faved benefits for this user. See [/auth/me](speca://me).",
+        "operationId" : "fave",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Id of the benefit that will be faved.",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "204" : {
+            "description" : "Benefit was successfully faved."
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "fave"
+      }
+    },
+    "/benefits/{id}/unfave" : {
+      "post" : {
+        "summary" : "unfave",
+        "description" : "Unfave a benefit specified by `id`. Removes the benefit id from the list of faved benefits for this user. See [/auth/me](speca://me).",
+        "operationId" : "unfave",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Id of the benefit that will be unfaved",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "204" : {
+            "description" : "Benefit was successfully unfaved."
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "unfave"
+      }
+    },
+    "/benefits/{id}/redeem" : {
+      "post" : {
+        "summary" : "redeem",
+        "description" : "Redeem a benefit specified by `id`. Adds the benefit id to the list of redeemed benefits for this user and triggers a redeem notification (via email) for SWE. See [/auth/me](speca://me).",
+        "operationId" : "redeem",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "description" : "Id of the benefit that should be redeemed",
+            "required" : true,
+            "type" : "string"
+          }
+        ],
+        "responses" : {
+          "204" : {
+            "description" : "Benefit was successfully redeemed."
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "409" : {
+            "description" : "Benefit was already redeemed.",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Benefit was already redeemed."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "redeem"
+      }
+    },
+    "/auth/register" : {
+      "post" : {
+        "summary" : "register",
+        "description" : "Creates a new user on the platform. Email address must be unique among all users.",
+        "operationId" : "register",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "required" : true,
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "name" : {
+                  "type" : "string",
+                  "description" : "The user's name",
+                  "example" : "Max Mustermann"
+                },
+                "email" : {
+                  "type" : "string",
+                  "description" : "The user's email address",
+                  "example" : "max@mustermann.de"
+                },
+                "password" : {
+                  "type" : "string",
+                  "description" : "The user's password",
+                  "example" : "yolo0815"
+                },
+                "identifier" : {
+                  "type" : "string",
+                  "description" : "The user's SWE identifier (\"Geschäftspartnernummer\", \"EVAG Abokartennummer\")",
+                  "example" : "0123456789abcdefghijklm"
+                },
+                "client_id" : {
+                  "type" : "string",
+                  "description" : "A valid client id for this platform."
+                },
+                "client_secret" : {
+                  "type" : "string",
+                  "description" : "The secret corresponding to the given client id."
+                }
+              }
+            }
+          }
+        ],
+        "responses" : {
+          "201" : {
+            "description" : "Returned when the user was successfully created.",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "User successfully created."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "register"
+      }
+    },
+    "/auth/login" : {
+      "post" : {
+        "summary" : "login",
+        "description" : "Perform a login with the given user credentials. Returns a valid access and refresh token when successful.",
+        "operationId" : "login",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "required" : true,
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "email" : {
+                  "type" : "string",
+                  "description" : "The user's email address",
+                  "example" : "max@mustermann.de"
+                },
+                "password" : {
+                  "type" : "string",
+                  "description" : "The user's password",
+                  "example" : "yolo0815"
+                },
+                "client_id" : {
+                  "type" : "string",
+                  "description" : "A valid client id for this platform."
+                },
+                "client_secret" : {
+                  "type" : "string",
+                  "description" : "The secret corresponding to the given client id."
+                }
+              }
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned when the email/password combination is valid.",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "auth" : {
+                  "type" : "boolean"
+                },
+                "access_token" : {
+                  "type" : "string",
+                  "description" : "A valid access token. Expires after 15 minutes."
+                },
+                "refresh_token" : {
+                  "type" : "string",
+                  "description" : "A valid refresh token. Expires after 90 days."
+                },
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Successfully logged in."
+                    }
+                  }
+                },
+                "token_type" : {
+                  "type" : "string",
+                  "example" : "Bearer"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Returned when the given email/password combination is invalid.",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "auth" : {
+                  "type" : "string",
+                  "example" : "false"
+                },
+                "token" : {
+                  "type" : "string",
+                  "example" : "null"
+                },
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Invalid email/password combination."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "x-speca-id" : "login"
+      }
+    },
+    "/auth/token" : {
+      "post" : {
+        "summary" : "token",
+        "description" : "Request a new access and refresh token. Old tokens for this user are invalidated.",
+        "operationId" : "token",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "required" : true,
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "refresh_token" : {
+                  "type" : "string"
+                },
+                "client_id" : {
+                  "type" : "string",
+                  "description" : "A valid client id for this platform."
+                },
+                "client_secret" : {
+                  "type" : "string",
+                  "description" : "The secret corresponding to the given client id."
+                }
+              }
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned when new tokens were successfully created.",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "auth" : {
+                  "type" : "boolean"
+                },
+                "access_token" : {
+                  "type" : "string",
+                  "description" : "A new, valid access token. Expires in 15 minutes."
+                },
+                "refresh_token" : {
+                  "type" : "string",
+                  "description" : "A new, valid refresh token. Expires in 90 days."
+                },
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Tokens successfully refreshed."
+                    }
+                  }
+                },
+                "token_type" : {
+                  "type" : "string",
+                  "example" : "Bearer"
+                }
+              }
+            }
+          },
+          "not-found" : {
+            "$ref" : "#/responses/not-found"
+          },
+          "internal-server-error" : {
+            "$ref" : "#/responses/internal-server-error"
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "token"
+      }
+    },
+    "/auth/logout" : {
+      "get" : {
+        "summary" : "logout",
+        "description" : "Performs a logout. All tokens for this user are invalidated immediately.",
+        "operationId" : "logout",
+        "responses" : {
+          "200" : {
+            "description" : "Logout successful.",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "auth" : {
+                  "type" : "boolean"
+                },
+                "access_token" : {
+                  "type" : "string",
+                  "example" : "null"
+                },
+                "refresh_token" : {
+                  "type" : "string",
+                  "example" : "null"
+                },
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Successfully logged out."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "logout"
+      }
+    },
+    "/auth/me" : {
+      "get" : {
+        "summary" : "me",
+        "description" : "Retrieves user details, such as name, email address, SWE identifier, and the lists of faved events, faved benefits, as well as redeemed benefits.",
+        "operationId" : "me",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "event_favorites" : {
+                  "type" : "array",
+                  "description" : "List of faved events.",
+                  "items" : {
+                    "type" : "string",
+                    "example" : "Z0R0055864727-10"
+                  },
+                  "example" : "[\"Z0R0055864727-10\"]"
+                },
+                "benefit_favorites" : {
+                  "type" : "array",
+                  "description" : "List of faved benefits.",
+                  "items" : {
+                    "type" : "string",
+                    "example" : "bfd5fc22-ab37-4b47-b242-2cebe15d59da"
+                  },
+                  "example" : "[\"bfd5fc22-ab37-4b47-b242-2cebe15d59da\"]"
+                },
+                "_id" : {
+                  "type" : "string",
+                  "description" : "User Id.",
+                  "example" : "5b1a9540faa65128fd8b4706"
+                },
+                "name" : {
+                  "type" : "string",
+                  "description" : "User name.",
+                  "example" : "Maximilian Schirmer"
+                },
+                "email" : {
+                  "type" : "string",
+                  "description" : "User's email address.",
+                  "example" : "max@weloveapps.de"
+                },
+                "identifier" : {
+                  "type" : "string",
+                  "description" : "SWE identifier (e.g., EVAG Abokartennummer, SWE Geschäftspartnernummer)",
+                  "example" : "01234567890"
+                },
+                "redeemed_benefits" : {
+                  "type" : "string",
+                  "description" : "List of redeemed benefits.",
+                  "example" : "[\"bfd5fc22-ab37-4b47-b242-2cebe15d59da\"]"
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "Auth" : [ ]
+          }
+        ],
+        "x-speca-id" : "me"
+      }
+    },
+    "/info" : {
+      "get" : {
+        "summary" : "info",
+        "description" : "Returns the current version of the middleware. Executes `git rev-parse --short HEAD` internally.",
+        "operationId" : "get-info",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "result" : {
+                  "type" : "object",
+                  "properties" : {
+                    "version" : {
+                      "type" : "string",
+                      "example" : "1b3d28d"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-speca-id" : "get-info"
+      }
+    }
+  },
+  "definitions" : {
+    "Event List Schema" : {
+      "type" : "object",
+      "properties" : {
+        "result" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "categories" : {
+                "type" : "object",
+                "properties" : {
+                  "main" : {
+                    "type" : "string",
+                    "example" : "Familie"
+                  },
+                  "sub" : {
+                    "type" : "string",
+                    "example" : "Senioren"
+                  }
+                }
+              },
+              "location" : {
+                "type" : "object",
+                "properties" : {
+                  "coordinates" : {
+                    "type" : "object",
+                    "properties" : {
+                      "latitude" : {
+                        "type" : "number",
+                        "example" : 50.978786
+                      },
+                      "longitude" : {
+                        "type" : "number",
+                        "example" : 11.024814
+                      }
+                    }
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "example" : "Frauenzentrum"
+                  },
+                  "sublocation" : {
+                    "type" : "string"
+                  },
+                  "street" : {
+                    "type" : "string",
+                    "example" : "Pergamentergasse 36"
+                  },
+                  "city" : {
+                    "type" : "string",
+                    "example" : "Erfurt"
+                  },
+                  "zip_code" : {
+                    "type" : "string",
+                    "example" : "99084"
+                  }
+                }
+              },
+              "_id" : {
+                "type" : "string",
+                "example" : "Z0R0122377663-116"
+              },
+              "updated_at" : {
+                "type" : "string",
+                "example" : "2018-06-11T11:01:28.074Z"
+              },
+              "highlight" : {
+                "type" : "boolean"
+              },
+              "title" : {
+                "type" : "string",
+                "example" : "Seniorinnensport"
+              },
+              "date_start" : {
+                "type" : "string",
+                "example" : "2018-06-11T12:00:00.000Z"
+              },
+              "date_end" : {
+                "type" : "string",
+                "example" : "2018-06-11T12:00:00.000Z"
+              },
+              "admission_price" : {
+                "type" : "integer"
+              },
+              "source" : {
+                "type" : "string",
+                "example" : "MGT"
+              },
+              "image" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      },
+      "x-speca-id" : "Event List Schema"
+    },
+    "benefit list schema" : {
+      "type" : "object",
+      "properties" : {
+        "result" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "_id" : {
+                "type" : "string",
+                "example" : "bfd5fc22-ab37-4b47-b242-2cebe15d59da"
+              },
+              "title" : {
+                "type" : "string",
+                "example" : "MEIN HEIMVORTEIL"
+              },
+              "subtitle" : {
+                "type" : "string",
+                "example" : "Lichterfest im egapark!"
+              },
+              "date_start" : {
+                "type" : "string",
+                "example" : "2018-06-14T22:00:00.000Z"
+              },
+              "date_end" : {
+                "type" : "string",
+                "example" : "2018-07-14T21:59:00.000Z"
+              },
+              "description" : {
+                "type" : "string",
+                "example" : "Am 10. und 11. August 2018 geht das Lichterfest in seine 52. Auflage. Der Saisonhöhepunkt im größten Garten Thüringens sorgt Jahr für Jahr für abertausende bunte Lichter, Musik auf mehreren Bühnen, Laser-, Licht- und Feuershows. Und was auf keinen Fall fehlen darf, ist ein spektakuläres Feuerwerk an beiden Abenden. Für das diesjährige Lichterfest verlosen wir an SWE Energiekunden 50 x 2 Freikarten. Als Teilnehmer am Gewinnspiel erklären Sie sich verbindlich, dass Sie die Teilnahmebedingungen gelesen und akzeptiert haben.\n\nWir wünschen Ihnen viel Spaß und einen schönen Sommer!\n\nIhr Team der SWE Energie GmbH"
+              },
+              "image" : {
+                "type" : "string",
+                "example" : "https://www.stadtwerke-erfurt.de/pb/site/swe/get/params_E2084650003/273126/Header%20HV%20Lichterfest%202018%20635x220.jpg"
+              },
+              "source" : {
+                "type" : "string",
+                "example" : "swe-energie"
+              },
+              "updated_at" : {
+                "type" : "string",
+                "example" : "2018-06-18T07:55:00.000Z"
+              },
+              "annotation_title" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      },
+      "x-speca-id" : "benefit list schema"
+    }
+  },
+  "parameters" : {
+    "skip" : {
+      "name" : "skip",
+      "in" : "query",
+      "description" : "Used for pagination. Skips the first n results. Default value is 0 if no skip is specified.",
+      "type" : "string",
+      "x-speca-id" : "skip"
+    },
+    "limit" : {
+      "name" : "limit",
+      "in" : "query",
+      "description" : "Specifies the number of returned events. Maximum is 1000. Default value is 100 if no limit is specified.",
+      "type" : "string",
+      "x-speca-id" : "limit"
+    }
+  },
+  "responses" : {
+    "Unprocessable Entity" : {
+      "description" : "Input validation has failed.",
+      "schema" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "object",
+            "properties" : {
+              "message" : {
+                "type" : "string",
+                "description" : "Error message",
+                "example" : "Invalid input."
+              },
+              "errors" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "location" : {
+                      "type" : "string",
+                      "description" : "Input parameter location",
+                      "example" : "query"
+                    },
+                    "param" : {
+                      "type" : "string",
+                      "description" : "Input parameter name",
+                      "example" : "limit"
+                    },
+                    "value" : {
+                      "type" : "string",
+                      "description" : "Input parameter values, as submitted",
+                      "example" : "horst"
+                    },
+                    "msg" : {
+                      "type" : "string",
+                      "description" : "Error message",
+                      "example" : "Invalid value"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-speca-id" : "unprocessable-entity"
+    },
+    "Internal Server Error" : {
+      "description" : "General error, mostly DB related.",
+      "schema" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "There was a problem logging in the user."
+          }
+        }
+      },
+      "x-speca-id" : "internal-server-error"
+    },
+    "Not Found" : {
+      "description" : "Entity not found.",
+      "schema" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "object",
+            "properties" : {
+              "message" : {
+                "type" : "string",
+                "example" : "Event not found."
+              }
+            }
+          }
+        }
+      },
+      "x-speca-id" : "not-found"
+    }
+  },
+  "securityDefinitions" : {
+    "Auth" : {
+      "type" : "oauth2",
+      "flow" : "password",
+      "tokenUrl" : "/auth/login"
+    }
+  }
+}

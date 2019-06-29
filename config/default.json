@@ -1,0 +1,22 @@
+/**
+ * Created by max on 16.06.17.
+ */
+
+{
+  "server": {
+    "port": 4201,
+    "hostname": ""
+  },
+  "database": {
+    "name": "tests"
+  },
+  "tokens": {
+    "access_secret": "",
+    "refresh_secret": "",
+    "access_expiration": 900,
+    "refresh_expiration": 7776000,
+    "client_id": "tests",
+    "client_secret": "",
+    "password_reset_expiration": 86400
+  }
+}
